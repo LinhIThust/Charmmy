@@ -2,85 +2,56 @@ package com.example.viewpagerinfinity.views
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.viewpagerinfinity.models.Face
+import android.util.Log.d
+
 import com.example.viewpagerinfinity.R
+import com.example.viewpagerinfinity.models.ListTabHeader
+import com.example.viewpagerinfinity.models.TabHeader
+import com.example.viewpagerinfinity.services.APIService
 import com.example.viewpagerinfinity.views.adapters.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-    var listFace = arrayListOf<Face>()
+    companion object {
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://charmmy-api.line.me/api/v1/")
+            .build()
+
+        val api = retrofit.create(APIService::class.java)
+    }
+
+    var listTab = mutableListOf<TabHeader>()
+    lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setData()
-        var viewPagerAdapter =
-            ViewPagerAdapter(supportFragmentManager, listFace)
+
+        api.getAllHeader().enqueue(object : Callback<ListTabHeader> {
+            override fun onFailure(call: Call<ListTabHeader>, t: Throwable) {
+                d("abcd", t.message)
+            }
+            override fun onResponse(call: Call<ListTabHeader>, response: retrofit2.Response<ListTabHeader>) {
+                showData(response.body())
+
+            }
+        })
+
+    }
+
+    private fun showData(body: ListTabHeader?) {
+        for (it in body!!.list_tab) listTab.add(it)
+        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, listTab, this)
         vpDemo.adapter = viewPagerAdapter
         recycler_tab_layout.setUpWithViewPager(vpDemo)
         recycler_tab_layout.setAutoSelectionMode(true)
-        ivMenu.setOnClickListener{}
-
-    }
-
-    private fun setData() {
-
-        listFace.add(
-            Face(
-                "LC",
-                "203",
-                "https://randomuser.me/api/portraits/med/women/61.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "LinhFRTGF",
-                "220",
-                "https://randomuser.me/api/portraits/med/women/62.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "LinhFFFF",
-                "202",
-                "https://randomuser.me/api/portraits/med/women/63.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "LinhFFFSS",
-                "240",
-                "https://randomuser.me/api/portraits/med/women/66.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "Fnh",
-                "320",
-                "https://randomuser.me/api/portraits/med/women/68.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "FFGFLinh1234",
-                "220",
-                "https://randomuser.me/api/portraits/med/women/69.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "LFF",
-                "201",
-                "https://randomuser.me/api/portraits/med/women/67.jpg"
-            )
-        )
-        listFace.add(
-            Face(
-                "1",
-                "210",
-                "https://randomuser.me/api/portraits/med/women/80.jpg"
-            )
-        )
+        d("abcd", listTab.toString())
 
 
     }
+
 }

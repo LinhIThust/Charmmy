@@ -6,7 +6,7 @@
               android:orientation="vertical"
               tools:context=".views.BlankFragment">
     <ImageView
-            android:id="@+id/ivProfile"
+            android:id="@+id/ivRankingProfile"
             android:src="@drawable/ic_launcher_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

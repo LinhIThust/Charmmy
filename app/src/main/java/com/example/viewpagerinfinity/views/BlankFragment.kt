@@ -3,14 +3,15 @@ package com.example.viewpagerinfinity.views
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.models.Face
-import com.squareup.picasso.Picasso
+import com.example.viewpagerinfinity.models.TabHeader
+import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,28 +29,25 @@ class BlankFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_blank, container, false)
-        val tvAge = view.findViewById<TextView>(R.id.tvAge)
-        val tvName = view.findViewById<TextView>(R.id.tvName)
-        val ivPicture = view.findViewById<ImageView>(R.id.ivProfile)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        val rvMain = view.findViewById<RecyclerView>(R.id.rvMain)
         val args = arguments
-////        Log.d("haha", args.getString("AGE") + args.getString("NAME"))
-        tvAge.text = args?.getString("AGE")
-        tvName.text = args?.getString("NAME")
-        Picasso.with(context).load(args?.getString("PICTURE")).into(ivPicture)
-//
-                return view
+
+        rvMain.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+            val index = args?.getString("INDEX")
+            when(index){
+                "0" -> adapter = TabHomeAdapter()
+            }
+        }
+        return view
     }
 
     companion object {
-        fun newInstanceFragmet(face: Face): BlankFragment {
-            val fragment: BlankFragment =
-                BlankFragment()
+        fun newInstanceFragmet(tab: TabHeader): BlankFragment {
+            val fragment: BlankFragment = BlankFragment()
             val args = Bundle()
-            args.putString("AGE",face.name)
-            args.putString("NAME",face.age)
-            args.putString("PICTURE", face.picture)
+            args.putString("INDEX",tab.index)
             fragment.arguments = args
             return fragment
         }
