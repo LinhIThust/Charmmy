@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.models.Expert
 import com.squareup.picasso.Picasso
@@ -23,6 +24,9 @@ class NoteProviderAdapter(val listExpert: List<Expert>, val context: Context) :
         holder.tvName.text = listExpert[position].name
         holder.tvDescription.text = listExpert[position].description
         Picasso.with(context).load(listExpert[position].icon).into(holder.ivProfile)
+        holder.ivProfile.setOnClickListener {
+            Toast.makeText(context,holder.tvName.text,Toast.LENGTH_LONG).show()
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

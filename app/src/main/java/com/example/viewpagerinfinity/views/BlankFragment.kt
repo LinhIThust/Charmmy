@@ -3,15 +3,22 @@ package com.example.viewpagerinfinity.views
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.models.TabHeader
+import com.example.viewpagerinfinity.models.*
+import com.example.viewpagerinfinity.views.adapters.ArticleAdapter
+import com.example.viewpagerinfinity.views.adapters.RankingAdapter
 import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,8 +43,24 @@ class BlankFragment() : Fragment() {
         rvMain.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
             val index = args?.getString("INDEX")
-            when(index){
+            when (index) {
                 "0" -> adapter = TabHomeAdapter()
+                "2" -> {
+                    layoutManager =
+                        GridLayoutManager(context, 2, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+
+                    MainActivity.api.getArticle().enqueue(object : Callback<ListArticle> {
+                        override fun onFailure(call: Call<ListArticle>, t: Throwable) {
+                        }
+
+                        override fun onResponse(call: Call<ListArticle>, response: Response<ListArticle>) {
+                            val listArticle = mutableListOf<Article>()
+                            for (it in response.body()!!.list_article) listArticle.add(it)
+                            Log.d("abcd", "ranking " + listArticle.toString())
+                            adapter = ArticleAdapter(listArticle, context)
+                        }
+                    })
+                }
             }
         }
         return view
@@ -47,7 +70,7 @@ class BlankFragment() : Fragment() {
         fun newInstanceFragmet(tab: TabHeader): BlankFragment {
             val fragment: BlankFragment = BlankFragment()
             val args = Bundle()
-            args.putString("INDEX",tab.index)
+            args.putString("INDEX", tab.index)
             fragment.arguments = args
             return fragment
         }

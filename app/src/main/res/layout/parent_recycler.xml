@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignStart="@+id/rv_child"
-                android:padding="20dp"
+                android:padding="15dp"
                 android:text="Hello World"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" android:layout_alignLeft="@+id/rv_child"/>
@@ -39,7 +39,17 @@
             android:scrollbars="horizontal"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
-            tools:layout_editor_absoluteX="74dp" />
+            tools:layout_editor_absoluteX="74dp" >
+        </android.support.v7.widget.RecyclerView>
+        <ImageView
+                android:padding="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:srcCompat="@drawable/ic_arrow_forward_black_24dp"
+                android:id="@+id/ivNext"
+                tools:ignore="VectorDrawableCompat" android:layout_alignRight="@+id/rv_child"
+                android:layout_marginRight="10dp"
+                android:layout_alignEnd="@+id/rv_child"/>
 
     </RelativeLayout>
 

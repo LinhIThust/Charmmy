@@ -12,6 +12,9 @@ import android.widget.TextView
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.models.*
 import com.example.viewpagerinfinity.views.MainActivity.Companion.api
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.category_recycle.view.*
 import kotlinx.android.synthetic.main.parent_recycler.view.*
 import retrofit2.Call
@@ -35,11 +38,11 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return 4
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position ==1) return TYPE_2
+        if (position == 1) return TYPE_2
         return TYPE_1
     }
 
@@ -48,17 +51,23 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder as View1Holder
             holder.recyclerView.apply {
 
-                if (position == 0){
-                    layoutManager = GridLayoutManager(holder.recyclerView.context, 5, LinearLayout.HORIZONTAL, false)
-                    api.getScreenRanking().enqueue(object :Callback<ListRanking>{
+                if (position == 0) {
+                    holder.tvName.text = ""
+                    layoutManager = GridLayoutManager(
+                        holder.recyclerView.context,
+                        5,
+                        LinearLayout.HORIZONTAL,
+                        false
+                    ) as RecyclerView.LayoutManager?
+                    api.getScreenRanking().enqueue(object : Callback<ListRanking> {
                         override fun onFailure(call: Call<ListRanking>, t: Throwable) {
                         }
 
                         override fun onResponse(call: Call<ListRanking>, response: Response<ListRanking>) {
                             val listRanking = mutableListOf<Ranking>()
-                            for(it in response.body()!!.list_ranking) listRanking.add(it)
-                            d("abcd" , "ranking "+listRanking.toString())
-                            adapter =RankingAdapter(listRanking,context)
+                            for (it in response.body()!!.list_ranking) listRanking.add(it)
+                            d("abcd", "ranking " + listRanking.toString())
+                            adapter = RankingAdapter(listRanking, context)
                         }
 
                     })
@@ -66,17 +75,40 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 if (position == 2) {
+                    holder.tvName.text = ""
                     layoutManager = GridLayoutManager(holder.recyclerView.context, 1, LinearLayout.HORIZONTAL, false)
                     api.getScreenExpert().enqueue(object : Callback<ListExpert> {
                         override fun onFailure(call: Call<ListExpert>, t: Throwable) {
                             Log.d("abcd", t.message)
                         }
+
                         override fun onResponse(call: Call<ListExpert>, response: retrofit2.Response<ListExpert>) {
                             val listExpert = mutableListOf<Expert>()
                             for (it in response.body()!!.list_expert) listExpert.add(it)
                             adapter = NoteProviderAdapter(listExpert, context)
                         }
                     })
+                }
+                if (position == 3) {
+                    holder.tvName.text = "Tag"
+                    holder.recyclerView.apply {
+                        layoutManager = FlexboxLayoutManager(holder.recyclerView.context).apply {
+                            justifyContent = JustifyContent.FLEX_START
+                            alignItems = AlignItems.CENTER
+                        }
+                        api.getScreenTag().enqueue(object : Callback<ListTag> {
+                            override fun onFailure(call: Call<ListTag>, t: Throwable) {
+                            }
+
+                            override fun onResponse(call: Call<ListTag>, response: Response<ListTag>) {
+                                val listTag = mutableListOf<Tag>()
+                                for (it in response.body()!!.list_tag) listTag.add(it)
+                                adapter = TagAdapter(listTag)
+                            }
+
+                        })
+                    }
+
                 }
                 recycledViewPool
             }
@@ -110,6 +142,4 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val rvCategory = itemView.rvCategory
     }
 
-    class View3Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
 }

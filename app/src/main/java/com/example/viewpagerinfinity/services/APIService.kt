@@ -1,9 +1,6 @@
 package com.example.viewpagerinfinity.services
 
-import com.example.viewpagerinfinity.models.ListCategory
-import com.example.viewpagerinfinity.models.ListExpert
-import com.example.viewpagerinfinity.models.ListRanking
-import com.example.viewpagerinfinity.models.ListTabHeader
+import com.example.viewpagerinfinity.models.*
 import retrofit2.Call
 import retrofit2.http.GET
 
@@ -19,4 +16,11 @@ interface APIService {
 
     @GET("screen/top/below?ids=")
     fun getScreenCategory(): Call<ListCategory>
+
+    @GET("screen/top/below?ids=")
+    fun getScreenTag(): Call<ListTag>
+
+
+    @GET("screen/category/1?lt=&li=0&fi=0&c=900")
+    fun getArticle(): Call<ListArticle>
 }
