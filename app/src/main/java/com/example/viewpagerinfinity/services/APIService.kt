@@ -3,24 +3,32 @@ package com.example.viewpagerinfinity.services
 import com.example.viewpagerinfinity.models.*
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIService {
+
+    @GET("screen/top/below")
+    fun getTabHome(): Call<ResponseTabHome>
+
+
     @GET("header")
     fun getAllHeader(): Call<ListTabHeader>
 
-    @GET("screen/top/below")
-    fun getScreenRanking(): Call<ListRanking>
-
-    @GET("screen/top/below?ids=")
-    fun getScreenExpert(): Call<ListExpert>
-
-    @GET("screen/top/below?ids=")
-    fun getScreenCategory(): Call<ListCategory>
-
-    @GET("screen/top/below?ids=")
-    fun getScreenTag(): Call<ListTag>
 
 
-    @GET("screen/category/1?lt=&li=0&fi=0&c=900")
-    fun getArticle(): Call<ListArticle>
+    @GET("screen/category/{id}?")
+    fun getCatelogy(
+        @Path("id") id: Int,
+        @Query("c") number: Int
+    ):Call<ResponseCategogy>
+
+
+    @GET("screen/pickup?")
+    fun getPickup(
+        @Query("c") number: Int
+    ):Call<ResponsePickUp>
+
+
+
 }

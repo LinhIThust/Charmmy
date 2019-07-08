@@ -21,10 +21,10 @@ class CategoryAdapter(val listCategory: List<Category>,val context:Context
 
     override fun onBindViewHolder(p0:ViewHolder, p1: Int) {
         p0.tvNameCategory.text = listCategory[p1].title
-        p0.tvTitleCate1.text =listCategory[p1].list_article[0].title
-        p0.tvTitleCate2.text =listCategory[p1].list_article[1].title
-        Picasso.with(context).load(getURL(listCategory[p1].list_article[0].thumbnail)).into(p0.ivCategory1)
-        Picasso.with(context).load(getURL(listCategory[p1].list_article[1].thumbnail)).into(p0.ivCategory2)
+        p0.tvTitleCate1.text =listCategory[p1].listArticle[0].title
+        p0.tvTitleCate2.text =listCategory[p1].listArticle[1].title
+        Picasso.with(context).load(getURL(listCategory[p1].listArticle[0].thumbnail)).into(p0.ivCategory1)
+        Picasso.with(context).load(getURL(listCategory[p1].listArticle[1].thumbnail)).into(p0.ivCategory2)
     }
 
     private fun getURL(thumbnail: String): String {

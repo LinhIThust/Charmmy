@@ -1,51 +1,41 @@
 package com.example.viewpagerinfinity.services
 
-import android.content.Context
-import android.util.Log
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.Response.Listener
-
-import com.android.volley.toolbox.JsonObjectRequest
-import com.example.viewpagerinfinity.models.TabHeader
-import org.json.JSONException
+import android.util.Log.d
+import android.widget.Adapter
+import com.example.viewpagerinfinity.models.ResponseTabHome
+import retrofit2.Callback
+import com.example.viewpagerinfinity.views.MainActivity.Companion.api
+import retrofit2.Call
+import retrofit2.Response
+import com.example.viewpagerinfinity.Utils
+import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
 
 class GetData() {
     companion object {
-//        fun getListTabHeader(url: String, context: Context) {
-//            val listTab = arrayListOf<TabHeader>()
-//            val TAG = "abc"
-//            Log.d(TAG, "da vao day")
-//            val oRequest = object : JsonObjectRequest(Request.Method.GET, url, null,
-//                Listener { response ->
-//                    try {
-//                        Log.d(TAG, "da vao day22")
-//                        val tabArray = response.getJSONArray("list_tab")
-//                        Log.d(TAG, tabArray.length().toString())
-//                        for (i in 0 until tabArray.length()) {
-//                            val tab = tabArray.getJSONObject(i)
-//                            listTab.add(
-//                                TabHeader(
-//                                    tab.getString("index"),
-//                                    tab.getString("slug"),
-//                                    tab.getString("type"),
-//                                    tab.getString("url"),
-//                                    tab.getString("title")
-//                                )
-//                            )
-//                        }
-//                        Log.d(TAG, "avc" + listTab.toString())
-//
-//                    } catch (e: JSONException) {
-//                        Log.d(TAG, "co loi gif do " + e.message)
-//                        e.printStackTrace()
-//                    }
-//                }, Response.ErrorListener { error ->
-//                    Log.d("abc", "errrp")
-//                }) {
-//            }
-//            VolleySingletion.getInstance(context).addToRequestQueue(oRequest)
-//        }
+        fun getDataTabHome(adapter: TabHomeAdapter) {
+            api.getTabHome().enqueue(object : Callback<ResponseTabHome> {
+                override fun onFailure(call: Call<ResponseTabHome>, t: Throwable) {
 
+                }
+
+                override fun onResponse(call: Call<ResponseTabHome>, response: Response<ResponseTabHome>) {
+                    val responseTabHome = response.body()
+                    d("home", responseTabHome!!.listRanking.toString())
+                    d("home", responseTabHome!!.listCategory.toString())
+                    d("home", responseTabHome!!.listExpert.toString())
+                    d("home", responseTabHome!!.listTag.toString())
+
+                    Utils.listRanking.addAll(responseTabHome!!.listRanking)
+                    Utils.listExpert.addAll(responseTabHome!!.listExpert)
+                    Utils.listTag.addAll(responseTabHome!!.listTag)
+                    Utils.listCategory.addAll(responseTabHome!!.listCategory)
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        }
+
+        fun getDataTabCategory(id: Int, number: Int){
+
+        }
     }
 }

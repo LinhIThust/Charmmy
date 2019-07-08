@@ -16,6 +16,6 @@ class ViewPagerAdapter(
     override fun getItem(p0: Int): Fragment =
         BlankFragment.newInstanceFragmet(listTab[p0 % size ])
 
-    override fun getCount() = n
+    override fun getCount() = 1000
     override fun getPageTitle(position: Int) = listTab[position % size].title
 }

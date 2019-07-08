@@ -10,12 +10,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
+import com.example.viewpagerinfinity.Utils.Companion.listArticle
 import com.example.viewpagerinfinity.models.*
+import com.example.viewpagerinfinity.views.MainActivity.Companion.api
 import com.example.viewpagerinfinity.views.adapters.ArticleAdapter
-import com.example.viewpagerinfinity.views.adapters.RankingAdapter
+import com.example.viewpagerinfinity.views.adapters.PickupAdapter
+
 import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,11 +38,7 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class BlankFragment() : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val rvMain = view.findViewById<RecyclerView>(R.id.rvMain)
         val args = arguments
@@ -44,28 +47,46 @@ class BlankFragment() : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
             val index = args?.getString("INDEX")
             when (index) {
-                "0" -> adapter = TabHomeAdapter()
-                "2" -> {
-                    layoutManager =
-                        GridLayoutManager(context, 2, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                "0" -> {
+                    adapter = TabHomeAdapter()
+                }
+                "2", "3", "4", "5", "6" -> {
+//                    layoutManager = GridLayoutManager(context, 2, LinearLayout.VERTICAL, false)
+                    layoutManager = FlexboxLayoutManager(context).apply {
+                        justifyContent = JustifyContent.FLEX_START
+                        alignItems = AlignItems.CENTER
+                    }
+                    api.getCatelogy(index.toInt()-1,20).enqueue(object:Callback<ResponseCategogy>{
+                        override fun onFailure(call: Call<ResponseCategogy>, t: Throwable) {
+                        }
+                        override fun onResponse(call: Call<ResponseCategogy>, response: Response<ResponseCategogy>) {
+                            listArticle= emptyArray<Article>().toMutableList()
+                            listArticle.add(response.body()!!.article)
+                            listArticle.addAll(response.body()!!.listArticle)
+                            adapter = ArticleAdapter(listArticle,context)
+                        }
+                    })
+//                    adapter = ArticleAdapter(listArticle, context)
+                }
+                "7" ->{
+                    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                    api.getPickup(10).enqueue(object:Callback<ResponsePickUp>{
+                        override fun onFailure(call: Call<ResponsePickUp>, t: Throwable) {
 
-                    MainActivity.api.getArticle().enqueue(object : Callback<ListArticle> {
-                        override fun onFailure(call: Call<ListArticle>, t: Throwable) {
                         }
 
-                        override fun onResponse(call: Call<ListArticle>, response: Response<ListArticle>) {
-                            val listArticle = mutableListOf<Article>()
-                            for (it in response.body()!!.list_article) listArticle.add(it)
-                            Log.d("abcd", "ranking " + listArticle.toString())
-                            adapter = ArticleAdapter(listArticle, context)
+                        override fun onResponse(call: Call<ResponsePickUp>, response: Response<ResponsePickUp>) {
+                            listArticle= emptyArray<Article>().toMutableList()
+                            listArticle.addAll(response.body()!!.listArticle)
+                            adapter= PickupAdapter(listArticle,context)
                         }
+
                     })
                 }
             }
         }
         return view
     }
-
     companion object {
         fun newInstanceFragmet(tab: TabHeader): BlankFragment {
             val fragment: BlankFragment = BlankFragment()
