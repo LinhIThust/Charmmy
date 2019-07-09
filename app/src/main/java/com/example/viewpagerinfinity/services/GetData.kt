@@ -27,7 +27,7 @@ class GetData() {
                     Utils.listExpert.addAll(responseTabHome!!.listExpert)
                     Utils.listTag.addAll(responseTabHome!!.listTag)
                     Utils.listCategory.addAll(responseTabHome!!.listCategory)
-//                    adapter.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
                 }
             })
         }

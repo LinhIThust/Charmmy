@@ -1,5 +1,7 @@
 package com.example.viewpagerinfinity.views
 
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
@@ -34,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://charmmy-api.line.me/api/v1/")
             .build()
-
         val api = retrofit.create(APIService::class.java)
     }
 
@@ -43,11 +44,10 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        d("state",savedInstanceState.toString())
+        requestedOrientation =ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
         getSizeDevice()
         setClick()
-
         api.getAllHeader().enqueue(object : Callback<ListTabHeader> {
             override fun onFailure(call: Call<ListTabHeader>, t: Throwable) {
                 d("abcd", t.message)
@@ -63,8 +63,15 @@ class MainActivity : AppCompatActivity() {
         ivMenu.setOnClickListener{
             dlNavigation.openDrawer(GravityCompat.START)
         }
+        tvCharmmy.setOnClickListener{
+            for(i in 0..8)
+                if((vpDemo.currentItem -i) %9 == 0) vpDemo.setCurrentItem(vpDemo.currentItem -i)
+        }
+        ivSearch.setOnClickListener{
+            val intent = Intent(this,SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
-
     private fun getSizeDevice() {
         orientation = this.resources.configuration.orientation
         var displayMatrix = DisplayMetrics()
@@ -72,7 +79,6 @@ class MainActivity : AppCompatActivity() {
         widthDevice = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             displayMatrix.widthPixels else displayMatrix.widthPixels
     }
-
     private fun showData(body: ListTabHeader?) {
         for (it in body!!.listTabHeader) listHeader.add(it)
         listHeader.removeAt(1)
@@ -81,7 +87,6 @@ class MainActivity : AppCompatActivity() {
         recycler_tab_layout.setUpWithViewPager(vpDemo)
         recycler_tab_layout.setAutoSelectionMode(true)
         d("abcd", listHeader.toString())
-
 
     }
 

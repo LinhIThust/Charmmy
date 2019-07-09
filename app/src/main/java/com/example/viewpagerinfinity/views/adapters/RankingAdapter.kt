@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.viewpagerinfinity.R
+import com.example.viewpagerinfinity.Utils.Companion.getURL
 import com.example.viewpagerinfinity.models.Ranking
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.ranking_layout.view.*
@@ -19,21 +20,16 @@ class RankingAdapter(val listRanking: List<Ranking>, val content: Context) :
 
     override fun getItemCount(): Int = 15
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Picasso.with(content).load(getURL(listRanking[position].thumbnail)).into(holder.ivRanking)
-        holder.tvRank.text = listRanking[position].rank.toString()
-        holder.tvRankingColection.text = listRanking[position].category.title
-        holder.tvRankingDes.text = listRanking[position].title
-    }
-
-    private fun getURL(thumbnail: String): String {
-        val lisUrl = thumbnail.split("\"")
-        return lisUrl[lisUrl.size - 4]
+        holder.dataBinding(listRanking[position],content)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivRanking = itemView.ivRankingProfile
-        val tvRankingDes = itemView.tvRankingDes
-        val tvRankingColection = itemView.tvRankingColection
-        val tvRank = itemView.tvRank
+        fun dataBinding(ranking: Ranking,content: Context){
+            Picasso.with(content).load(getURL(ranking.thumbnail)).into(itemView.ivRankingProfile)
+            itemView.tvRankingDes.text=ranking.title
+            itemView.tvRankingColection.text=ranking.category.title
+            itemView.tvRank.text=ranking.rank.toString()
+        }
+
     }
 }

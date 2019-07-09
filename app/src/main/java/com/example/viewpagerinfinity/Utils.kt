@@ -10,6 +10,12 @@ class Utils {
         val listTag = mutableListOf<Tag>()
         val listHeader = mutableListOf<TabHeader>()
         var listArticle = mutableListOf<Article>()
+        val vpMain = R.id.vpDemo
+        fun getURL(thumbnail: String): String {
+            val lisUrl = thumbnail.split("\"")
+            return lisUrl[lisUrl.size - 4]
+        }
     }
+
 
 }

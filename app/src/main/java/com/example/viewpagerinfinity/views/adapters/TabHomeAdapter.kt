@@ -1,5 +1,6 @@
 package com.example.viewpagerinfinity.views.adapters
 
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -45,8 +46,7 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == TYPE_1) {
             holder as View1Holder
-            holder.tvName.setOnClickListener{
-            }
+
             holder.recyclerView.apply {
                 if (position == 0) {
                     holder.tvName.text = "ランキング"
