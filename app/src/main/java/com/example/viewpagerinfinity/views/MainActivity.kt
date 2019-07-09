@@ -5,8 +5,11 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.v4.view.GravityCompat
 import android.util.DisplayMetrics
 import android.util.Log.d
+import android.view.Gravity
+import android.widget.Toast
 
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listHeader
@@ -38,22 +41,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewPagerAdapter: ViewPagerAdapter
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        d("state",savedInstanceState.toString())
         setContentView(R.layout.activity_main)
-
-        orientation = this.resources.configuration.orientation
-        var displayMatrix = DisplayMetrics()
-        var hight = windowManager.defaultDisplay.getMetrics(displayMatrix)
-        widthDevice = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            displayMatrix.widthPixels else displayMatrix.widthPixels
+        getSizeDevice()
+        setClick()
 
         api.getAllHeader().enqueue(object : Callback<ListTabHeader> {
             override fun onFailure(call: Call<ListTabHeader>, t: Throwable) {
                 d("abcd", t.message)
             }
-
             override fun onResponse(call: Call<ListTabHeader>, response: retrofit2.Response<ListTabHeader>) {
                 showData(response.body())
             }
@@ -61,8 +59,23 @@ class MainActivity : AppCompatActivity() {
         GetData.getDataTabHome(TabHomeAdapter())
     }
 
+    private fun setClick() {
+        ivMenu.setOnClickListener{
+            dlNavigation.openDrawer(GravityCompat.START)
+        }
+    }
+
+    private fun getSizeDevice() {
+        orientation = this.resources.configuration.orientation
+        var displayMatrix = DisplayMetrics()
+        var hight = windowManager.defaultDisplay.getMetrics(displayMatrix)
+        widthDevice = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            displayMatrix.widthPixels else displayMatrix.widthPixels
+    }
+
     private fun showData(body: ListTabHeader?) {
         for (it in body!!.listTabHeader) listHeader.add(it)
+        listHeader.removeAt(1)
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, listHeader, this)
         vpDemo.adapter = viewPagerAdapter
         recycler_tab_layout.setUpWithViewPager(vpDemo)

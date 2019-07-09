@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvNameType"
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

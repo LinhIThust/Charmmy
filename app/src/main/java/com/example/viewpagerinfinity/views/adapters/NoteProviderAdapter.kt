@@ -1,7 +1,6 @@
 package com.example.viewpagerinfinity.views.adapters
 
 import android.content.Context
-import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.util.Log.d
 import android.view.LayoutInflater
@@ -38,7 +37,7 @@ class NoteProviderAdapter(val listExpert: List<Expert>, val context: Context) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvName = itemView.findViewById<TextView>(R.id.tvNameExpert)
+        var tvName = itemView.findViewById<TextView>(R.id.tvTitleExpert)
         val tvDescription = itemView.findViewById<TextView>(R.id.tvDesExpert)
         var ivProfile = itemView.findViewById<CircleImageView>(R.id.ivRankingProfile)
     }

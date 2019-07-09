@@ -5,18 +5,42 @@
 
     <item
             android:id="@+id/item1"
-            android:title="helllo1"/>
+            android:title="ログイン"/>
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/item2"
+                android:title="ホーム"/>
+        <item
+                android:id="@+id/item3"
+                android:title="お知らせ"/>
+        <item
+                android:id="@+id/item4"
+                android:title="お気に入り"/>
+        <item
+                android:id="@+id/item5"
+                android:title="購入履歴"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/item6"
+                android:title="ヘルプ"/>
+        <item
+                android:id="@+id/item7"
+                android:title="利用規約"/>
+        <item
+                android:id="@+id/item8"
+                android:title="Instagram利用規約"/>
+        <item
+                android:id="@+id/item9"
+                android:title="プライバシーポリシー"/>
+    </group>
+
     <item
-            android:id="@+id/item2"
-            android:title="helllo2"/>
+            android:id="@+id/item10"
+            android:title="ホーム画面に追加"/>
     <item
-            android:id="@+id/item3"
-            android:title="helllo3"/>
-    <item
-            android:id="@+id/item4"
-            android:title="helllo4"/>
-    <item
-            android:id="@+id/item5"
-            android:title="helllo5"/>
+            android:id="@+id/item11"
+            android:title="charmmyを友だちに追加"/>
 
 </menu>

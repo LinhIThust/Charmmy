@@ -10,6 +10,7 @@ import com.example.viewpagerinfinity.models.Ranking
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.ranking_layout.view.*
 
+
 class RankingAdapter(val listRanking: List<Ranking>, val content: Context) :
     RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
@@ -34,7 +35,5 @@ class RankingAdapter(val listRanking: List<Ranking>, val content: Context) :
         val tvRankingDes = itemView.tvRankingDes
         val tvRankingColection = itemView.tvRankingColection
         val tvRank = itemView.tvRank
-
-
     }
 }

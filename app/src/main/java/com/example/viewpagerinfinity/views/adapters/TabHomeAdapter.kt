@@ -45,20 +45,23 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == TYPE_1) {
             holder as View1Holder
+            holder.tvName.setOnClickListener{
+            }
             holder.recyclerView.apply {
                 if (position == 0) {
-                    holder.tvName.text = ""
+                    holder.tvName.text = "ランキング"
                     layoutManager = GridLayoutManager(holder.recyclerView.context, 5, LinearLayout.HORIZONTAL, false)
                     adapter = RankingAdapter(listRanking, context)
 
                 }
                 if (position == 2) {
-                    holder.tvName.text = ""
+                    holder.tvName.text = "提供者"
                     layoutManager = GridLayoutManager(holder.recyclerView.context, 1, LinearLayout.HORIZONTAL, false)
                     adapter = NoteProviderAdapter(listExpert, context)
                 }
+
                 if (position == 3) {
-                    holder.tvName.text = "Tag"
+                    holder.tvName.text = "人気のタグ"
                     holder.recyclerView.apply {
                         layoutManager = FlexboxLayoutManager(holder.recyclerView.context).apply {
                             justifyContent = JustifyContent.FLEX_START
@@ -73,6 +76,7 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         if (getItemViewType(position) == TYPE_2) {
             holder as View2Holder
+            holder.rvCategory
             holder.rvCategory.apply {
                 layoutManager = GridLayoutManager(holder.rvCategory.context, 1, LinearLayout.VERTICAL, false)
                 adapter = CategoryAdapter(listCategory, context)
@@ -82,7 +86,7 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class View1Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recyclerView: RecyclerView = itemView.rv_child
-        val tvName: TextView = itemView.textView
+        val tvName: TextView = itemView.tvNameType
     }
 
     class View2Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,11 @@ import android.widget.Adapter
 import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listArticle
+import com.example.viewpagerinfinity.Utils.Companion.listExpert
 import com.example.viewpagerinfinity.models.*
 import com.example.viewpagerinfinity.views.MainActivity.Companion.api
 import com.example.viewpagerinfinity.views.adapters.ArticleAdapter
+import com.example.viewpagerinfinity.views.adapters.ExpertTabAdapter
 import com.example.viewpagerinfinity.views.adapters.PickupAdapter
 
 import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
@@ -56,29 +59,53 @@ class BlankFragment() : Fragment() {
                         justifyContent = JustifyContent.FLEX_START
                         alignItems = AlignItems.CENTER
                     }
-                    api.getCatelogy(index.toInt()-1,20).enqueue(object:Callback<ResponseCategogy>{
+                    api.getCatelogy(index.toInt() - 1, 20).enqueue(object : Callback<ResponseCategogy> {
                         override fun onFailure(call: Call<ResponseCategogy>, t: Throwable) {
                         }
+
                         override fun onResponse(call: Call<ResponseCategogy>, response: Response<ResponseCategogy>) {
-                            listArticle= emptyArray<Article>().toMutableList()
+                            listArticle = emptyArray<Article>().toMutableList()
                             listArticle.add(response.body()!!.article)
                             listArticle.addAll(response.body()!!.listArticle)
-                            adapter = ArticleAdapter(listArticle,context)
+                            adapter = ArticleAdapter(listArticle, context)
                         }
                     })
 //                    adapter = ArticleAdapter(listArticle, context)
                 }
-                "7" ->{
-                    layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
-                    api.getPickup(10).enqueue(object:Callback<ResponsePickUp>{
+                "7" -> {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                    api.getPickup(10).enqueue(object : Callback<ResponsePickUp> {
                         override fun onFailure(call: Call<ResponsePickUp>, t: Throwable) {
 
                         }
 
                         override fun onResponse(call: Call<ResponsePickUp>, response: Response<ResponsePickUp>) {
-                            listArticle= emptyArray<Article>().toMutableList()
+                            listArticle = emptyArray<Article>().toMutableList()
                             listArticle.addAll(response.body()!!.listArticle)
-                            adapter= PickupAdapter(listArticle,context)
+                            adapter = PickupAdapter(listArticle, context)
+                        }
+
+                    })
+                }
+                "8" -> {
+                }
+                "9" -> {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                    api.getExpert(1).enqueue(object : Callback<ResponseExpert> {
+                        override fun onFailure(call: Call<ResponseExpert>, t: Throwable) {
+                            d("loi", t.message)
+                        }
+
+                        override fun onResponse(call: Call<ResponseExpert>, response: Response<ResponseExpert>) {
+                            listExpert = emptyArray<Expert>().toMutableList()
+                            listExpert.add(response.body()!!.firstExpert)
+                            listExpert.addAll(response.body()!!.listExpert)
+                            val article = response.body()!!.article
+                            adapter = ExpertTabAdapter(listExpert, article, context)
+                            d("xxa", listExpert.toString())
+
                         }
 
                     })
@@ -87,6 +114,7 @@ class BlankFragment() : Fragment() {
         }
         return view
     }
+
     companion object {
         fun newInstanceFragmet(tab: TabHeader): BlankFragment {
             val fragment: BlankFragment = BlankFragment()

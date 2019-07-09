@@ -3,6 +3,7 @@ package com.example.viewpagerinfinity.views.adapters
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.example.viewpagerinfinity.views.BlankFragment
 import com.example.viewpagerinfinity.models.TabHeader
@@ -10,7 +11,7 @@ import com.example.viewpagerinfinity.models.TabHeader
 class ViewPagerAdapter(
     fragmentManager: FragmentManager, val listTab: MutableList<TabHeader>,
     val context: Context
-) : FragmentStatePagerAdapter(fragmentManager) {
+) : FragmentPagerAdapter(fragmentManager) {
     val size = listTab.size
     val n =Int.MAX_VALUE
     override fun getItem(p0: Int): Fragment =

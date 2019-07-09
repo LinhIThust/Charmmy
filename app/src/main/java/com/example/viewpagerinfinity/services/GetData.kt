@@ -15,9 +15,7 @@ class GetData() {
         fun getDataTabHome(adapter: TabHomeAdapter) {
             api.getTabHome().enqueue(object : Callback<ResponseTabHome> {
                 override fun onFailure(call: Call<ResponseTabHome>, t: Throwable) {
-
                 }
-
                 override fun onResponse(call: Call<ResponseTabHome>, response: Response<ResponseTabHome>) {
                     val responseTabHome = response.body()
                     d("home", responseTabHome!!.listRanking.toString())
@@ -29,7 +27,7 @@ class GetData() {
                     Utils.listExpert.addAll(responseTabHome!!.listExpert)
                     Utils.listTag.addAll(responseTabHome!!.listTag)
                     Utils.listCategory.addAll(responseTabHome!!.listCategory)
-                    adapter.notifyDataSetChanged()
+//                    adapter.notifyDataSetChanged()
                 }
             })
         }

@@ -11,24 +11,24 @@ interface APIService {
     @GET("screen/top/below")
     fun getTabHome(): Call<ResponseTabHome>
 
-
     @GET("header")
     fun getAllHeader(): Call<ListTabHeader>
-
-
 
     @GET("screen/category/{id}?")
     fun getCatelogy(
         @Path("id") id: Int,
         @Query("c") number: Int
-    ):Call<ResponseCategogy>
-
+    ): Call<ResponseCategogy>
 
     @GET("screen/pickup?")
     fun getPickup(
         @Query("c") number: Int
-    ):Call<ResponsePickUp>
+    ): Call<ResponsePickUp>
 
+    @GET("screen/expert-list?")
+    fun getExpert(
+        @Query("p") id: Int
+    ): Call<ResponseExpert>
 
 
 }
