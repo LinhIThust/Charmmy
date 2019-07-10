@@ -3,15 +3,12 @@ package com.example.viewpagerinfinity.views
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listArticle
@@ -26,36 +23,23 @@ import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.activity_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
-class BlankFragment() : Fragment() {
+class BlankFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val rvMain = view.findViewById<RecyclerView>(R.id.rvMain)
         val args = arguments
 
         rvMain.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
-            val index = args?.getString("INDEX")
-            when (index) {
+            layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+            when (val index = args?.getString("INDEX")) {
                 "0" -> {
                     adapter = TabHomeAdapter()
                 }
                 "2", "3", "4", "5", "6" -> {
-//                    layoutManager = GridLayoutManager(context, 2, LinearLayout.VERTICAL, false)
                     layoutManager = FlexboxLayoutManager(context).apply {
                         justifyContent = JustifyContent.FLEX_START
                         alignItems = AlignItems.CENTER
@@ -71,11 +55,10 @@ class BlankFragment() : Fragment() {
                             adapter = ArticleAdapter(listArticle, context)
                         }
                     })
-//                    adapter = ArticleAdapter(listArticle, context)
                 }
                 "7" -> {
                     layoutManager =
-                        LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                        LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                     api.getPickup(10).enqueue(object : Callback<ResponsePickUp> {
                         override fun onFailure(call: Call<ResponsePickUp>, t: Throwable) {
 
@@ -93,7 +76,7 @@ class BlankFragment() : Fragment() {
                 }
                 "9" -> {
                     layoutManager =
-                        LinearLayoutManager(context, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
+                        LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                     api.getExpert(1).enqueue(object : Callback<ResponseExpert> {
                         override fun onFailure(call: Call<ResponseExpert>, t: Throwable) {
                             d("loi", t.message)
@@ -116,9 +99,19 @@ class BlankFragment() : Fragment() {
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        d("xxxa", "onCreate")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        d("xxxa", "onPause")
+    }
+
     companion object {
         fun newInstanceFragmet(tab: TabHeader): BlankFragment {
-            val fragment: BlankFragment = BlankFragment()
+            val fragment = BlankFragment()
             val args = Bundle()
             args.putString("INDEX", tab.index)
             fragment.arguments = args

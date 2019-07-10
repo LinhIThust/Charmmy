@@ -31,7 +31,7 @@ class PickupAdapter(val listArticle: List<Article>, val context: Context) :
             itemView.ivPickUp.layoutParams.height = 3 * MainActivity.widthDevice / 16
 
             Picasso.with(context).load(getURL(article.thumbnail)).into(itemView.ivPickUp)
-            itemView.tvPickUp.text = article.category.title
+            itemView.tvPickUp.text = article.title
             itemView.tvCatePickUp.text = article.category.title
         }
     }

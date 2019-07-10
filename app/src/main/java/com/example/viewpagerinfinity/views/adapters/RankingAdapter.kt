@@ -18,17 +18,18 @@ class RankingAdapter(val listRanking: List<Ranking>, val content: Context) :
         parent: ViewGroup, viewType: Int
     ) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.ranking_layout, parent, false))
 
-    override fun getItemCount(): Int = 15
+    override fun getItemCount(): Int = listRanking.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.dataBinding(listRanking[position],content)
+        if (listRanking.size != 0)
+            holder.dataBinding(listRanking[position], content)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun dataBinding(ranking: Ranking,content: Context){
-            Picasso.with(content).load(getURL(ranking.thumbnail)).into(itemView.ivRankingProfile)
-            itemView.tvRankingDes.text=ranking.title
-            itemView.tvRankingColection.text=ranking.category.title
-            itemView.tvRank.text=ranking.rank.toString()
+        fun dataBinding(ranking: Ranking?, content: Context) {
+            Picasso.with(content).load(ranking?.thumbnail?.let { getURL(it) }).into(itemView.ivRankingProfile)
+            itemView.tvRankingDes.text = ranking?.title
+            itemView.tvRankingColection.text = ranking?.category?.title
+            itemView.tvRank.text = ranking?.rank.toString()
         }
 
     }

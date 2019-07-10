@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.ViewPager
 import android.util.DisplayMetrics
 import android.util.Log.d
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 
 import com.example.viewpagerinfinity.R
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         var orientation = 0
         var hightDevice = 0
         var widthDevice = 0
-
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://charmmy-api.line.me/api/v1/")
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         getSizeDevice()
         setClick()
+
         api.getAllHeader().enqueue(object : Callback<ListTabHeader> {
             override fun onFailure(call: Call<ListTabHeader>, t: Throwable) {
                 d("abcd", t.message)
