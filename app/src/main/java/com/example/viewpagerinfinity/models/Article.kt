@@ -9,7 +9,8 @@ data class Article(
     var thumbnail: String,
     var title: String,
     var category: Category,
+    var amount : Int,
     @SerializedName("is_new") var isNew: Boolean,
-    @SerializedName("isPr") var isPr: Boolean,
+    @SerializedName("is_pr") var isPr: Boolean,
     @SerializedName("pusblish_time") var publishTime: String
 )

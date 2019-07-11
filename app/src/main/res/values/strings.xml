@@ -2,5 +2,6 @@
     <string name="app_name">Charmmy</string>
 
     <string name="hello_blank_fragment">LinhDzai</string>
-
+    <string name="null_text_search"> キーワードを入力してください。</string>
+    <string name="none_result_search"> 一致する情報は見つかりませんでした。</string>
 </resources>

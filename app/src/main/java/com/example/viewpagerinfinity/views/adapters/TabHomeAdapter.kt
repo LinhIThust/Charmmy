@@ -1,4 +1,7 @@
 package com.example.viewpagerinfinity.views.adapters
+
+import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,9 +15,11 @@ import com.example.viewpagerinfinity.Utils.Companion.listCategory
 import com.example.viewpagerinfinity.Utils.Companion.listExpert
 import com.example.viewpagerinfinity.Utils.Companion.listRanking
 import com.example.viewpagerinfinity.Utils.Companion.listTag
+import com.example.viewpagerinfinity.views.SearchActivity
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.category_recycle.view.*
 import kotlinx.android.synthetic.main.parent_recycler.view.*
 
@@ -45,15 +50,15 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == TYPE_1) {
             holder as View1Holder
-            holder.tvName.setOnClickListener{
+            holder.tvName.setOnClickListener {
 
-                Toast.makeText(holder.recyclerView.context,holder.tvName.text,Toast.LENGTH_LONG).show()
+                Toast.makeText(holder.recyclerView.context, holder.tvName.text, Toast.LENGTH_LONG).show()
             }
             holder.recyclerView.apply {
                 if (position == 0) {
                     holder.tvName.text = "ランキング"
                     layoutManager = GridLayoutManager(holder.recyclerView.context, 5, LinearLayout.HORIZONTAL, false)
-                    if(listRanking != null)
+                    if (listRanking != null)
                         adapter = RankingAdapter(listRanking, context)
 
                 }
@@ -70,7 +75,13 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             justifyContent = JustifyContent.FLEX_START
                             alignItems = AlignItems.CENTER
                         }
-                        adapter = TagAdapter(listTag)
+                        adapter = TagAdapter(listTag).apply {
+                            onItemClick = {
+                                val intent = Intent(context, SearchActivity::class.java)
+                                intent.putExtra("Tag", it.title)
+                                context.startActivity(intent)
+                            }
+                        }
                     }
                 }
                 recycledViewPool
@@ -90,6 +101,7 @@ class TabHomeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class View1Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recyclerView: RecyclerView = itemView.rv_child
         val tvName: TextView = itemView.tvNameType
+
     }
 
     class View2Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -8,17 +8,29 @@ import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.models.Tag
 import kotlinx.android.synthetic.main.tag_layout.view.*
 
-class TagAdapter(val listTag : List<Tag>) :RecyclerView.Adapter<TagAdapter.ViewHolder>(){
+class TagAdapter(val listTag: List<Tag>) : RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+    var onItemClick: (itemData: Tag) -> Unit = {}
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int
-    )= ViewHolder(LayoutInflater.from(p0.context).inflate(R.layout.tag_layout,p0,false))
+    ) = ViewHolder(
+        LayoutInflater.from(p0.context).inflate(R.layout.tag_layout, p0, false),
+        onItemClick = onItemClick
+    )
+
     override fun getItemCount() = listTag.size
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.tvTag.text= listTag[p1].title
+        p0.onBindData(listTag[p1])
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val tvTag = itemView.tvTag
+    class ViewHolder(
+        itemView: View
+        , private val onItemClick: (itemData: Tag) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        fun onBindData(itemData: Tag) {
+            itemView.tvTag.text = itemData.title
+            itemView.setOnClickListener { onItemClick(itemData) }
+        }
     }
 }

@@ -30,5 +30,11 @@ interface APIService {
         @Query("p") id: Int
     ): Call<ResponseExpert>
 
+    @GET("screen/search-result?")
+    fun getSearchResult(
+        @Query("keyword") key:String,
+        @Query("s") type:String,
+        @Query("p") page:Int
+    ):Call<ResponseSearch>
 
 }

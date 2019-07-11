@@ -8,12 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
 import android.util.DisplayMetrics
 import android.util.Log.d
-import android.view.Gravity
-import android.view.View
-import android.widget.Toast
+
 
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listHeader
@@ -31,7 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     companion object {
         var orientation = 0
-        var hightDevice = 0
         var widthDevice = 0
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -71,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
         ivSearch.setOnClickListener{
             val intent = Intent(this,SearchActivity::class.java)
+            intent.putExtra("Tag","")
             startActivity(intent)
         }
     }

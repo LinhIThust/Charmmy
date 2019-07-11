@@ -20,7 +20,7 @@ class ArticleAdapter(val listArticle: List<Article>, val context: Context) :
 
     override fun getItemCount() = listArticle.size
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        if (p1 == 0) p0.ivArticle.layoutParams.width = widthDevice
+        if (p1 == 0) p0.ivArticle.layoutParams.width = widthDevice-50
         else
             p0.ivArticle.layoutParams.width = 5 * widthDevice / 11
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listArticle
 import com.example.viewpagerinfinity.Utils.Companion.listExpert
@@ -23,6 +24,7 @@ import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import kotlinx.android.synthetic.main.activity_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +49,6 @@ class BlankFragment : Fragment() {
                     api.getCatelogy(index.toInt() - 1, 20).enqueue(object : Callback<ResponseCategogy> {
                         override fun onFailure(call: Call<ResponseCategogy>, t: Throwable) {
                         }
-
                         override fun onResponse(call: Call<ResponseCategogy>, response: Response<ResponseCategogy>) {
                             listArticle = emptyArray<Article>().toMutableList()
                             listArticle.add(response.body()!!.article)

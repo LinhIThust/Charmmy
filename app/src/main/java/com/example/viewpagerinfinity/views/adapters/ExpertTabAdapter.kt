@@ -20,20 +20,10 @@ class ExpertTabAdapter(val listExpert: List<Expert>, val article: Article, val c
     override fun getItemCount() = listExpert.size
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        if (p1 == 0) {
-            p0.tvCategoryTitleExpert.text = article.category.title
-            p0.tvTitleArticleExpert.text = article.title
-            
-        } else {
-            p0.tvCategoryTitleExpert.text=""
-            p0.tvTitleArticleExpert.text=""
-        }
         p0.dataBinding(listExpert[p1], context)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTitleArticleExpert = itemView.tvTitleArticleExpert
-        val tvCategoryTitleExpert = itemView.tvCategoryTitleExpert
         fun dataBinding(expert: Expert, context: Context) {
             Picasso.with(context).load(expert.icon).into(itemView.ivExpertTab)
             itemView.tvNameExpert.text = expert.name

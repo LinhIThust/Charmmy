@@ -29,8 +29,8 @@ class NoteProviderAdapter(val listExpert: List<Expert>, val context: Context) :
         fun dataBinding(expert: Expert, context: Context) {
             itemView.tvTitleExpert.text = expert.name
             itemView.tvDesExpert.text = expert.description
-            itemView.ivRankingProfile.layoutParams.width = MainActivity.widthDevice / 3
-            itemView.ivRankingProfile.layoutParams.height = MainActivity.widthDevice / 3
+            itemView.ivRankingProfile.layoutParams.width = MainActivity.widthDevice / 4
+            itemView.ivRankingProfile.layoutParams.height = MainActivity.widthDevice / 4
             Picasso.with(context).load(expert.icon).into(itemView.ivRankingProfile)
             itemView.ivRankingProfile.setOnClickListener {
                 Toast.makeText(context,expert.id.toString(),Toast.LENGTH_LONG).show()
