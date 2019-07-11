@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun getSizeDevice() {
         orientation = this.resources.configuration.orientation
         var displayMatrix = DisplayMetrics()
-        var hight = windowManager.defaultDisplay.getMetrics(displayMatrix)
+        windowManager.defaultDisplay.getMetrics(displayMatrix)
         widthDevice = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             displayMatrix.widthPixels else displayMatrix.widthPixels
     }

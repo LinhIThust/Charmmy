@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">LinhDzai</string>
     <string name="null_text_search"> キーワードを入力してください。</string>
     <string name="none_result_search"> 一致する情報は見つかりませんでした。</string>
+    <string name="results">"件の検索結果"</string>
+    <string name="new_sort">新着順</string>
+    <string name="popular_sort">人気順</string>
 </resources>
