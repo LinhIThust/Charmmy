@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.google.android:flexbox:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-
+    implementation 'org.sufficientlysecure:html-textview:3.6'
 
     implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'

@@ -4,14 +4,18 @@ import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log.d
 import android.view.KeyEvent
 import android.view.View
 import android.widget.LinearLayout
 import com.example.viewpagerinfinity.R
+import com.example.viewpagerinfinity.Utils.Companion.listTag
 import com.example.viewpagerinfinity.models.Article
 import com.example.viewpagerinfinity.models.ResponseSearch
 import com.example.viewpagerinfinity.views.MainActivity.Companion.api
 import com.example.viewpagerinfinity.views.adapters.SearchResultAdapter
+import com.example.viewpagerinfinity.views.adapters.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import retrofit2.Call
 import retrofit2.Response
@@ -22,7 +26,12 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         rvSearchResult.apply {
-            layoutManager = GridLayoutManager(this@SearchActivity, 1, LinearLayout.VERTICAL, false)
+            layoutManager = GridLayoutManager(
+                this@SearchActivity,
+                1,
+                LinearLayout.VERTICAL,
+                false
+            ) as RecyclerView.LayoutManager?
             adapter = null
         }
 
@@ -31,18 +40,21 @@ class SearchActivity : AppCompatActivity() {
             loadData(etContentSearch.text.toString(), "new", 1)
         }
         tvSort.setOnClickListener {
-            if (new) {
-                loadData(etContentSearch.text.toString(), "popular", 1)
-                new = false
-                tvSort.text = getString(R.string.new_sort)
-                tvSort.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_black_24dp, 0)
-            } else {
-                loadData(etContentSearch.text.toString(), "new", 1)
-                new = true
-                tvSort.text = getString(R.string.popular_sort)
-                tvSort.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_up_black_24dp, 0)
+            if(etContentSearch.text.toString().trim().length >0){
+                if (new) {
+                    loadData(etContentSearch.text.toString(), "popular", 1)
+                    new = false
+                    tvSort.text = getString(R.string.new_sort)
+                    tvSort.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_black_24dp, 0)
+                } else {
+                    loadData(etContentSearch.text.toString(), "new", 1)
+                    new = true
+                    tvSort.text = getString(R.string.popular_sort)
+                    tvSort.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_up_black_24dp, 0)
 
+                }
             }
+
         }
 
         etContentSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
@@ -50,6 +62,7 @@ class SearchActivity : AppCompatActivity() {
                 if (etContentSearch.text.toString() != "")
                     loadData(etContentSearch.text.toString(), "new", 1)
                 else {
+                    rvSearchResult.adapter=null
                     tvSearchNumber.text = getString(R.string.null_text_search)
                 }
                 return@OnKeyListener true
@@ -70,8 +83,10 @@ class SearchActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ResponseSearch>, response: Response<ResponseSearch>) {
                     val responseSearch = response.body()!!
                     tvSearchNumber.text = "" + responseSearch.info.totalRecords + getString(R.string.results)
-                    val listArticleResult = mutableListOf<Article>()
+                    var listArticleResult = mutableListOf<Article>()
+                    listArticleResult = emptyArray<Article>().toMutableList()
                     listArticleResult.addAll(responseSearch.listResult)
+                    d("resultSearch",listArticleResult.toString())
                     if (responseSearch.info.totalRecords == 0) {
                         tvSearchNumber.text = getString(R.string.none_result_search)
                         rvSearchResult.adapter = null

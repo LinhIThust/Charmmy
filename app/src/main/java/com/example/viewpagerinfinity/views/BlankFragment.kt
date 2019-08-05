@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.Utils.Companion.listArticle
 import com.example.viewpagerinfinity.Utils.Companion.listExpert
+import com.example.viewpagerinfinity.Utils.Companion.loadContentArticle
 import com.example.viewpagerinfinity.models.*
 import com.example.viewpagerinfinity.views.MainActivity.Companion.api
 import com.example.viewpagerinfinity.views.adapters.ArticleAdapter
@@ -24,7 +25,6 @@ import com.example.viewpagerinfinity.views.adapters.TabHomeAdapter
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import kotlinx.android.synthetic.main.activity_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,22 +38,30 @@ class BlankFragment : Fragment() {
         rvMain.apply {
             layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             when (val index = args?.getString("INDEX")) {
-                "0" -> {
-                    adapter = TabHomeAdapter()
+                "top" -> {
+                    adapter = TabHomeAdapter().apply {
+                        onItemClick = {
+                            Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
-                "2", "3", "4", "5", "6" -> {
+                "12", "3", "4", "15", "14","13" -> {
                     layoutManager = FlexboxLayoutManager(context).apply {
                         justifyContent = JustifyContent.FLEX_START
                         alignItems = AlignItems.CENTER
                     }
-                    api.getCatelogy(index.toInt() - 1, 20).enqueue(object : Callback<ResponseCategogy> {
+                    api.getCatelogy(index.toInt(), 20).enqueue(object : Callback<ResponseCategogy> {
                         override fun onFailure(call: Call<ResponseCategogy>, t: Throwable) {
                         }
                         override fun onResponse(call: Call<ResponseCategogy>, response: Response<ResponseCategogy>) {
                             listArticle = emptyArray<Article>().toMutableList()
                             listArticle.add(response.body()!!.article)
                             listArticle.addAll(response.body()!!.listArticle)
-                            adapter = ArticleAdapter(listArticle, context)
+                            adapter = ArticleAdapter(listArticle, context).apply {
+                                onItemClick={
+                                    loadContentArticle(context,it)
+                                }
+                            }
                         }
                     })
                 }
@@ -68,19 +76,18 @@ class BlankFragment : Fragment() {
                         override fun onResponse(call: Call<ResponsePickUp>, response: Response<ResponsePickUp>) {
                             listArticle = emptyArray<Article>().toMutableList()
                             listArticle.addAll(response.body()!!.listArticle)
-                            adapter = PickupAdapter(listArticle, context)
+                            adapter = PickupAdapter(listArticle)
                         }
 
                     })
                 }
                 "8" -> {
                 }
-                "9" -> {
+                "expert" -> {
                     layoutManager =
                         LinearLayoutManager(context, LinearLayout.VERTICAL, false)
                     api.getExpert(1).enqueue(object : Callback<ResponseExpert> {
                         override fun onFailure(call: Call<ResponseExpert>, t: Throwable) {
-                            d("loi", t.message)
                         }
 
                         override fun onResponse(call: Call<ResponseExpert>, response: Response<ResponseExpert>) {
@@ -88,8 +95,7 @@ class BlankFragment : Fragment() {
                             listExpert.add(response.body()!!.firstExpert)
                             listExpert.addAll(response.body()!!.listExpert)
                             val article = response.body()!!.article
-                            adapter = ExpertTabAdapter(listExpert, article, context)
-                            d("xxa", listExpert.toString())
+                            adapter = ExpertTabAdapter(listExpert, article)
 
                         }
 
@@ -114,7 +120,7 @@ class BlankFragment : Fragment() {
         fun newInstanceFragmet(tab: TabHeader): BlankFragment {
             val fragment = BlankFragment()
             val args = Bundle()
-            args.putString("INDEX", tab.index)
+            args.putString("INDEX", tab.slug)
             fragment.arguments = args
             return fragment
         }

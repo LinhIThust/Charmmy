@@ -25,7 +25,7 @@ class SearchResultAdapter(val listArticle: List<Article>) :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun dataBing(article: Article) {
-            if (article.amount == 0) {
+            if (article.category != null) {
                 itemView.tvTypeSearchResult.text = article.category.title
                 itemView.tvTypeSearchResult.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 

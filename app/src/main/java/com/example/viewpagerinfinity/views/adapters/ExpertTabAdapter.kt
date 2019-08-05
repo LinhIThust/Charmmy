@@ -11,7 +11,7 @@ import com.example.viewpagerinfinity.models.Expert
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.expert_tab.view.*
 
-class ExpertTabAdapter(val listExpert: List<Expert>, val article: Article, val context: Context) :
+class ExpertTabAdapter(val listExpert: List<Expert>, val article: Article) :
     RecyclerView.Adapter<ExpertTabAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         p0: ViewGroup, p1: Int
@@ -20,12 +20,12 @@ class ExpertTabAdapter(val listExpert: List<Expert>, val article: Article, val c
     override fun getItemCount() = listExpert.size
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.dataBinding(listExpert[p1], context)
+        p0.dataBinding(listExpert[p1])
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun dataBinding(expert: Expert, context: Context) {
-            Picasso.with(context).load(expert.icon).into(itemView.ivExpertTab)
+        fun dataBinding(expert: Expert) {
+            Picasso.with(itemView.context).load(expert.icon).into(itemView.ivExpertTab)
             itemView.tvNameExpert.text = expert.name
             itemView.tvLike.text = expert.likes.toString()
             itemView.tvTitleExpert.text = expert.title

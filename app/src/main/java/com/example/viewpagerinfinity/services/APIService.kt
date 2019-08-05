@@ -37,4 +37,9 @@ interface APIService {
         @Query("p") page:Int
     ):Call<ResponseSearch>
 
+    @GET("screen/article/{id}")
+    fun getContentAritcle(
+        @Path("id" )id :Int
+    ):Call<ResponseContentArticle>
+
 }

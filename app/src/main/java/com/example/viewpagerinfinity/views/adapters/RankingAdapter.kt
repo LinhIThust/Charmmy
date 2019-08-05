@@ -1,6 +1,5 @@
 package com.example.viewpagerinfinity.views.adapters
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,24 +11,33 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.ranking_layout.view.*
 
 
-class RankingAdapter(val listRanking: List<Ranking>, val content: Context) :
+class RankingAdapter(private val listRanking: List<Ranking>) :
     RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
+
+    var onItemClick: (ranking: Ranking) -> Unit = {}
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.ranking_layout, parent, false))
+    ) = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.ranking_layout, parent, false),
+        onItemClick
+    )
 
     override fun getItemCount(): Int = listRanking.size
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (listRanking.size != 0)
-            holder.dataBinding(listRanking[position], content)
+        if (listRanking.isNotEmpty())
+            holder.dataBinding(listRanking[position])
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun dataBinding(ranking: Ranking?, content: Context) {
-            Picasso.with(content).load(ranking?.thumbnail?.let { getURL(it) }).into(itemView.ivRankingProfile)
-            itemView.tvRankingDes.text = ranking?.title
-            itemView.tvRankingColection.text = ranking?.category?.title
-            itemView.tvRank.text = ranking?.rank.toString()
+    class ViewHolder(
+        itemView: View,
+        private val onItemClick: (ranking: Ranking) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        fun dataBinding(ranking: Ranking) {
+            Picasso.with(itemView.context).load(getURL(ranking.thumbnail)).into(itemView.ivRankingProfile)
+            itemView.tvRankingDes.text = ranking.title
+            itemView.tvRankingColection.text = ranking.category.title
+            itemView.tvRank.text = ranking.rank.toString()
+            itemView.setOnClickListener { onItemClick(ranking) }
         }
 
     }

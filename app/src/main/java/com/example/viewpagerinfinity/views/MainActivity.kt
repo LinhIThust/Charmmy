@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestedOrientation =ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
         getSizeDevice()
         setClick()
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<ListTabHeader>, t: Throwable) {
                 d("abcd", t.message)
             }
+
             override fun onResponse(call: Call<ListTabHeader>, response: retrofit2.Response<ListTabHeader>) {
                 showData(response.body())
             }
@@ -58,19 +59,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setClick() {
-        ivMenu.setOnClickListener{
+        ivMenu.setOnClickListener {
             dlNavigation.openDrawer(GravityCompat.START)
         }
-        tvCharmmy.setOnClickListener{
-            for(i in 0..8)
-                if((vpDemo.currentItem -i) %9 == 0) vpDemo.setCurrentItem(vpDemo.currentItem -i)
+        tvCharmmy.setOnClickListener {
+            for (i in 0..7)
+                if ((vpDemo.currentItem - i) % 8 == 0) vpDemo.currentItem = vpDemo.currentItem - i
         }
-        ivSearch.setOnClickListener{
-            val intent = Intent(this,SearchActivity::class.java)
-            intent.putExtra("Tag","")
+        ivSearch.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra("Tag", "")
             startActivity(intent)
         }
     }
+
     private fun getSizeDevice() {
         orientation = this.resources.configuration.orientation
         var displayMatrix = DisplayMetrics()
@@ -78,15 +80,17 @@ class MainActivity : AppCompatActivity() {
         widthDevice = if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             displayMatrix.widthPixels else displayMatrix.widthPixels
     }
+
     private fun showData(body: ListTabHeader?) {
         for (it in body!!.listTabHeader) listHeader.add(it)
+        listHeader.removeAt(3)
+        listHeader.removeAt(2)
         listHeader.removeAt(1)
-        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, listHeader, this)
+        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, listHeader)
         vpDemo.adapter = viewPagerAdapter
-        recycler_tab_layout.setUpWithViewPager(vpDemo)
-        recycler_tab_layout.setAutoSelectionMode(true)
-        d("abcd", listHeader.toString())
-
+        vpDemo.currentItem = 160
+        rtlTab.setUpWithViewPager(vpDemo)
+        rtlTab.setAutoSelectionMode(true)
     }
 
 }
