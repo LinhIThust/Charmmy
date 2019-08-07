@@ -8,11 +8,11 @@ import com.example.viewpagerinfinity.R
 import com.example.viewpagerinfinity.models.Tag
 import kotlinx.android.synthetic.main.tag_layout.view.*
 
-class TagAdapter(val listTag: List<Tag>) : RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+class TagAdapter(private val listTag: List<Tag>) : RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+
     var onItemClick: (itemData: Tag) -> Unit = {}
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int
-    ) = ViewHolder(
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int) = ViewHolder(
         LayoutInflater.from(p0.context).inflate(R.layout.tag_layout, p0, false),
         onItemClick = onItemClick
     )
@@ -23,14 +23,14 @@ class TagAdapter(val listTag: List<Tag>) : RecyclerView.Adapter<TagAdapter.ViewH
         p0.onBindData(listTag[p1])
     }
 
-
     class ViewHolder(
-        itemView: View
-        , private val onItemClick: (itemData: Tag) -> Unit
+        itemView: View,
+        private val onItemClick: (itemData: Tag) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
-        fun onBindData(itemData: Tag) {
-            itemView.tvTag.text = itemData.title
-            itemView.setOnClickListener { onItemClick(itemData) }
+
+        fun onBindData(itemData: Tag) = with(itemView){
+            tvTag?.text = itemData.title
+            setOnClickListener { onItemClick(itemData) }
         }
     }
 }

@@ -5,14 +5,15 @@ import android.content.Intent
 import com.example.viewpagerinfinity.models.*
 import com.example.viewpagerinfinity.views.ArticleActivity
 
-class Utils {
-    companion object {
+object Utils {
+
         val listRanking = mutableListOf<Ranking>()
         var listExpert = mutableListOf<Expert>()
         val listCategory = mutableListOf<Category>()
         val listTag = mutableListOf<Tag>()
         val listHeader = mutableListOf<TabHeader>()
         var listArticle = mutableListOf<Article>()
+
         val vpMain = R.id.vpDemo
         fun getURL(thumbnail: String): String {
             val lisUrl = thumbnail.split("\"")
@@ -24,6 +25,3 @@ class Utils {
             context.startActivity(intent)
         }
     }
-
-
-}

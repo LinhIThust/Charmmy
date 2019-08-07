@@ -1,3 +1,3 @@
 package com.example.viewpagerinfinity.models
 
-data class Tag(var id :Int,var title :String)
+data class Tag(val id: Int, val title: String)

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.Utils.Companion.getURL
+import com.example.viewpagerinfinity.Utils.getURL
 import com.example.viewpagerinfinity.models.Article
 import com.example.viewpagerinfinity.views.MainActivity
 import com.squareup.picasso.Picasso

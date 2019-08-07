@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.Utils.Companion.getURL
+import com.example.viewpagerinfinity.Utils.getURL
 import com.example.viewpagerinfinity.models.Article
 import com.example.viewpagerinfinity.views.MainActivity.Companion.widthDevice
 import com.squareup.picasso.Picasso
@@ -24,20 +24,16 @@ class SearchResultAdapter(val listArticle: List<Article>) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun dataBing(article: Article) {
-            if (article.category != null) {
-                itemView.tvTypeSearchResult.text = article.category.title
-                itemView.tvTypeSearchResult.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
-            } else {
-                itemView.tvTypeSearchResult.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.coin_s, 0, 0, 0)
-                itemView.tvTypeSearchResult.text = article.amount.toString()
-            }
-            itemView.tvTitleSearchResult.text = article.title
-            itemView.ivItemSearchResult.layoutParams.width = widthDevice / 3
-            itemView.ivItemSearchResult.layoutParams.height = widthDevice / 4
-            Picasso.with(itemView.context).load(getURL(article.thumbnail)).into(itemView.ivItemSearchResult)
+        fun dataBing(article: Article) = with(itemView) {
+
+            tvTypeSearchResult?.text = article.category.title
+            tvTypeSearchResult?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
+            tvTitleSearchResult?.text = article.title
+            ivItemSearchResult?.layoutParams?.width = widthDevice / 3
+            ivItemSearchResult?.layoutParams?.height = widthDevice / 4
+            Picasso.with(context).load(getURL(article.thumbnail)).into(ivItemSearchResult)
         }
-
     }
 }
