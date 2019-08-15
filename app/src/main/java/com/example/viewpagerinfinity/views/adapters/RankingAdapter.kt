@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.Utils.Companion.getURL
+import com.example.viewpagerinfinity.Utils.getURL
 import com.example.viewpagerinfinity.models.Ranking
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.ranking_layout.view.*
-
 
 class RankingAdapter(private val listRanking: List<Ranking>) :
     RecyclerView.Adapter<RankingAdapter.ViewHolder>() {

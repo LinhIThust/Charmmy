@@ -41,5 +41,4 @@ interface APIService {
     fun getContentAritcle(
         @Path("id" )id :Int
     ):Call<ResponseContentArticle>
-
 }

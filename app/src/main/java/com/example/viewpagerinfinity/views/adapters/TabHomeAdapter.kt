@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.Utils.Companion.listCategory
-import com.example.viewpagerinfinity.Utils.Companion.listExpert
-import com.example.viewpagerinfinity.Utils.Companion.listRanking
-import com.example.viewpagerinfinity.Utils.Companion.listTag
-import com.example.viewpagerinfinity.Utils.Companion.loadContentArticle
-import com.example.viewpagerinfinity.models.Category
+import com.example.viewpagerinfinity.Utils.listCategory
+import com.example.viewpagerinfinity.Utils.listExpert
+import com.example.viewpagerinfinity.Utils.listRanking
+import com.example.viewpagerinfinity.Utils.listTag
+import com.example.viewpagerinfinity.Utils.loadContentArticle
 import com.example.viewpagerinfinity.views.SearchActivity
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -122,12 +121,12 @@ class View1Holder(
             if (position == 0) {
                 tvName.text = "ランキング"
                 layoutManager = GridLayoutManager(recyclerView.context, 10, LinearLayout.HORIZONTAL, false)
-                if (listRanking != null)
-                    adapter = RankingAdapter(listRanking).apply {
-                        onItemClick = {
-                            loadContentArticle(context, it.id.toInt())
-                        }
+
+                adapter = RankingAdapter(listRanking).apply {
+                    onItemClick = {
+                        loadContentArticle(context, it.id.toInt())
                     }
+                }
             }
             if (position == 2) {
                 tvName.text = "提供者"
@@ -166,7 +165,8 @@ class View2Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 1,
                 LinearLayout.VERTICAL,
                 false
-            ) as RecyclerView.LayoutManager?
+            )
+
             adapter = CategoryAdapter(listCategory).apply {
                 onItemClick = {
                     loadContentArticle(context, it)

@@ -12,9 +12,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.viewpagerinfinity.R
-import com.example.viewpagerinfinity.Utils.Companion.listArticle
-import com.example.viewpagerinfinity.Utils.Companion.listExpert
-import com.example.viewpagerinfinity.Utils.Companion.loadContentArticle
+import com.example.viewpagerinfinity.Utils.listArticle
+import com.example.viewpagerinfinity.Utils.listExpert
+import com.example.viewpagerinfinity.Utils.loadContentArticle
 import com.example.viewpagerinfinity.models.*
 import com.example.viewpagerinfinity.views.MainActivity.Companion.api
 import com.example.viewpagerinfinity.views.adapters.ArticleAdapter

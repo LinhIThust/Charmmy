@@ -1,9 +1,3 @@
 package com.example.viewpagerinfinity.models
 
-data class TabHeader(
-    var index :String,
-    var slug :String,
-    var type :String,
-    var url : String,
-    var title:String
-)
+data class TabHeader(val index: String, val slug: String, val type: String, val url: String, val title: String)
